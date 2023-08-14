@@ -54,6 +54,16 @@ const LoginScreen = () => {
             >
               Login
             </Button>
+            <Button
+              mode="contained"
+              dark
+              // loading
+              buttonColor="rgba(255,255,255,0.2)"
+              textColor="black"
+              onPress={() => navigation.navigate("Main")}
+            >
+              Main
+            </Button>
             <View
               style={{
                 flexDirection: "row",
