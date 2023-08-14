@@ -8,6 +8,7 @@ import {
   ImageBackground,
   GestureResponderEvent,
   Pressable,
+  Alert,
 } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -15,6 +16,7 @@ import { TextInput } from "react-native-paper";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useRegisterUserMutation } from "../state/api";
+import axios from "axios";
 
 const RegisterScreen = () => {
   const [name, setName] = React.useState("");
@@ -26,13 +28,17 @@ const RegisterScreen = () => {
 
   const handleSubmit = () => {
     console.log(name, email, password);
-    registerUser({ name: name, email: email, password: password })
-      .unwrap()
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+    };
+    registerUser(user)
       .then(() => {
-        console.log("hi");
+        Alert.alert("Registration successful!", "You have been registered!");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        Alert.alert("Registration unsuccessful", "Try again later");
       });
   };
 
