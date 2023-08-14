@@ -43,18 +43,18 @@ setupListeners(store.dispatch);
 
 const tabs = [
   {
-    name: "Home",
-    component: HomeScreen,
-    focusedIcon: <Entypo name="home" size={24} color="black" />,
-    unFocusedIcon: <SimpleLineIcons name="home" size={24} color="black" />,
-  },
-  {
     name: "Profile",
     component: ProfileScreen,
     focusedIcon: <Ionicons name="person-circle" size={24} color="black" />,
     unFocusedIcon: (
       <Ionicons name="person-circle-outline" size={24} color="black" />
     ),
+  },
+  {
+    name: "Home",
+    component: HomeScreen,
+    focusedIcon: <Entypo name="home" size={24} color="black" />,
+    unFocusedIcon: <SimpleLineIcons name="home" size={24} color="black" />,
   },
   {
     name: "Cart",
@@ -92,6 +92,11 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
+              name="Main"
+              component={BottomTabs}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="Register"
               component={RegisterScreen}
               options={{ headerShown: false }}
@@ -99,11 +104,6 @@ export default function App() {
             <Stack.Screen
               name="Login"
               component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Main"
-              component={BottomTabs}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
