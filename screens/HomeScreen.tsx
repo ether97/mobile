@@ -1,103 +1,116 @@
-// Inspiration: https://dribbble.com/shots/14139308-Simple-Scroll-Animation
-// Illustrations by: SAMji https://dribbble.com/SAMji_illustrator
-
-import * as React from "react";
 import {
-  StatusBar,
   FlatList,
-  Image,
-  Animated,
+  StyleSheet,
   Text,
   View,
+  Image,
+  Animated,
   Dimensions,
-  StyleSheet,
-  TouchableOpacity,
+  StatusBar,
 } from "react-native";
-const { width, height } = Dimensions.get("screen");
+import React from "react";
+import "../assets/maroon.jpg";
 
-const data = [
-  "https://cdn.dribbble.com/users/3281732/screenshots/11192830/media/7690704fa8f0566d572a085637dd1eee.jpg?compress=1&resize=1200x1200",
-  "https://cdn.dribbble.com/users/3281732/screenshots/13130602/media/592ccac0a949b39f058a297fd1faa38e.jpg?compress=1&resize=1200x1200",
-  "https://cdn.dribbble.com/users/3281732/screenshots/9165292/media/ccbfbce040e1941972dbc6a378c35e98.jpg?compress=1&resize=1200x1200",
-  "https://cdn.dribbble.com/users/3281732/screenshots/11205211/media/44c854b0a6e381340fbefe276e03e8e4.jpg?compress=1&resize=1200x1200",
-  "https://cdn.dribbble.com/users/3281732/screenshots/7003560/media/48d5ac3503d204751a2890ba82cc42ad.jpg?compress=1&resize=1200x1200",
-  "https://cdn.dribbble.com/users/3281732/screenshots/6727912/samji_illustrator.jpeg?compress=1&resize=1200x1200",
-  "https://cdn.dribbble.com/users/3281732/screenshots/13661330/media/1d9d3cd01504fa3f5ae5016e5ec3a313.jpg?compress=1&resize=1200x1200",
+const { width, height } = Dimensions.get("window");
+
+const colors = ["black.jpg", "white.jpg", "gray.jpg", "maroon.jpg", "blue.jpg"];
+
+const images = [
+  {
+    help: (
+      <Image
+        source={require("../assets/black.jpg")}
+        style={{ flex: 1, resizeMode: "cover" }}
+      />
+    ),
+  },
+  {
+    shop: (
+      <Image
+        source={require("../assets/gray.jpg")}
+        style={{ flex: 1, resizeMode: "cover" }}
+      />
+    ),
+  },
+  {
+    home: (
+      <Image
+        source={require("../assets/maroon.jpg")}
+        style={{ flex: 1, resizeMode: "cover" }}
+      />
+    ),
+  },
+  {
+    urbanear: (
+      <Image
+        source={require("../assets/white.jpg")}
+        style={{ flex: 1, resizeMode: "cover" }}
+      />
+    ),
+  },
 ];
 
-const imageW = width * 0.7;
-const imageH = imageW * 1.54;
+const data = Object.entries(images).map(([key, value], index) => ({
+  title: key,
+  image: value,
+  key: index,
+}));
 
-export default () => {
-  const scrollX = React.useRef(new Animated.Value(0)).current;
+const Tab = ({ item }: { item: (typeof data)[0] }) => {
   return (
-    <View style={{ flex: 1, backgroundColor: "#000" }}>
-      <StatusBar hidden />
-      <View style={StyleSheet.absoluteFillObject}>
-        {data.map((image, index) => {
-          const inputRange = [
-            (index - 1) * width,
-            index * width,
-            (index + 1) * width,
-          ];
-          const opacity = scrollX.interpolate({
-            inputRange,
-            outputRange: [0, 1, 0],
-          });
-          return (
-            <Animated.Image
-              key={`image-${index}`}
-              source={{ uri: image }}
-              style={[
-                StyleSheet.absoluteFillObject,
-                {
-                  opacity,
-                },
-              ]}
-              blurRadius={80}
-            />
-          );
+    <View>
+      <Text style={{ color: "white" }}>{item.label}</Text>
+    </View>
+  );
+};
+
+const Tabs = ({ scrollX }: { scrollX: Animated.Value }) => {
+  return (
+    <View style={{ position: "absolute", top: 100, left: 30 }}>
+      <View style={{ gap: 20 }}>
+        {data.map((item) => {
+          return <Tab key={item.label} item={item} />;
         })}
       </View>
+    </View>
+  );
+};
+
+const HomeScreen = () => {
+  const scrollX = React.useRef(new Animated.Value(0)).current;
+  return (
+    <View style={{ width, height }}>
+      <StatusBar hidden />
       <Animated.FlatList
         data={data}
+        horizontal
+        keyExtractor={(data) => data.key}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: true }
+          { useNativeDriver: false }
         )}
-        keyExtractor={(_, index) => index.toString()}
-        horizontal
+        scrollEventThrottle={16}
+        showsHorizontalScrollIndicator={false}
         pagingEnabled
         renderItem={({ item }) => {
           return (
-            <View
-              style={{
-                width,
-                justifyContent: "center",
-                alignItems: "center",
-                shadowColor: "black",
-                shadowOpacity: 1,
-                shadowOffset: { width: 0, height: 0 },
-                shadowRadius: 200,
-              }}
-            >
-              <Image
-                source={{ uri: item }}
-                style={{
-                  width: imageW,
-                  height: imageH,
-                  resizeMode: "cover",
-                  borderRadius: 16,
-                  // shadowColor: "black",
-                  // shadowOpacity: 1,
-                  // shadowOffset: { width: 0, height: 0 },
-                  // shadowRadius: 200,
-                }}
+            <View style={{ width, height }}>
+              {item.img}
+              <View
+                style={[
+                  StyleSheet.absoluteFillObject,
+                  { backgroundColor: "rgba(1,1,1,0.5)" },
+                ]}
               />
             </View>
           );
         }}
       />
+      <Tabs scrollX={scrollX} />
     </View>
   );
 };
+
+export default HomeScreen;
+
+const styles = StyleSheet.create({});

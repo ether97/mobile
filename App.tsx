@@ -19,6 +19,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import ProfileScreen from "./screens/ProfileScreen";
 import CartScreen from "./screens/CartScreen";
+import ItemColorScreen from "./screens/ItemColorScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -91,12 +92,22 @@ export default function App() {
       <PaperProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="Main"
               component={BottomTabs}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+            />
+            {/* <Stack.Screen
+              name="Item"
+              component={ItemColorScreen}
+              options={{ headerShown: false }}
+            /> */}
+            {/* <Stack.Screen
               name="Register"
               component={RegisterScreen}
               options={{ headerShown: false }}
@@ -105,7 +116,7 @@ export default function App() {
               name="Login"
               component={LoginScreen}
               options={{ headerShown: false }}
-            />
+            /> */}
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
