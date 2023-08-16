@@ -17,49 +17,52 @@ const colors = ["black.jpg", "white.jpg", "gray.jpg", "maroon.jpg", "blue.jpg"];
 
 const images = [
   {
-    help: (
-      <Image
-        source={require("../assets/black.jpg")}
-        style={{ flex: 1, resizeMode: "cover" }}
-      />
-    ),
-  },
-  {
-    shop: (
-      <Image
-        source={require("../assets/gray.jpg")}
-        style={{ flex: 1, resizeMode: "cover" }}
-      />
-    ),
-  },
-  {
-    home: (
-      <Image
-        source={require("../assets/maroon.jpg")}
-        style={{ flex: 1, resizeMode: "cover" }}
-      />
-    ),
-  },
-  {
-    urbanear: (
+    img: (
       <Image
         source={require("../assets/white.jpg")}
         style={{ flex: 1, resizeMode: "cover" }}
       />
     ),
+    label: "home",
+  },
+  {
+    img: (
+      <Image
+        source={require("../assets/gray.jpg")}
+        style={{ flex: 1, resizeMode: "cover" }}
+      />
+    ),
+    label: "shop",
+  },
+  {
+    img: (
+      <Image
+        source={require("../assets/black.jpg")}
+        style={{ flex: 1, resizeMode: "cover" }}
+      />
+    ),
+    label: "about",
   },
 ];
 
-const data = Object.entries(images).map(([key, value], index) => ({
-  title: key,
-  image: value,
-  key: index,
-}));
+const data = images.map((item, index) => ({ ...item, key: index }));
 
 const Tab = ({ item }: { item: (typeof data)[0] }) => {
   return (
     <View>
-      <Text style={{ color: "white" }}>{item.label}</Text>
+      <Text
+        style={{
+          color: "white",
+          fontWeight: "600",
+          letterSpacing: 5,
+          // width: 100,
+          fontSize: 40,
+          // textTransform: "uppercase",
+          lineHeight: 50,
+        }}
+      >
+        {item.label}
+      </Text>
     </View>
   );
 };
@@ -69,7 +72,7 @@ const Tabs = ({ scrollX }: { scrollX: Animated.Value }) => {
     <View style={{ position: "absolute", top: 100, left: 30 }}>
       <View style={{ gap: 20 }}>
         {data.map((item) => {
-          return <Tab key={item.label} item={item} />;
+          return <Tab key={item.key} item={item} />;
         })}
       </View>
     </View>
@@ -84,7 +87,7 @@ const HomeScreen = () => {
       <Animated.FlatList
         data={data}
         horizontal
-        keyExtractor={(data) => data.key}
+        keyExtractor={(item) => item.label}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: false }
